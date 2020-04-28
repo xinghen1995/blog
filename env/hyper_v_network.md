@@ -11,3 +11,16 @@ Hyper-v管理器的操作栏里有一个虚拟交换机管理器，可以创建�
 参考链接：[理解虚拟机中四种网络连接模式(CSDN)](https://blog.csdn.net/ning521513/article/details/78441392)
 
 ## 静态IP配置
+如果物理机是连的是无线网络，因为dhcp模式的原因，物理机每次接入网络的IP不固定。虚拟机使用的虚拟交换机(Default Switch)是Hyper-v用来做NAT地址转换用的，虚拟机内部也是dhcp分配的动态IP。当我们在物理机上映射虚拟磁盘时，必须要是用静态IP，以确保每次开机，虚拟磁盘都是可用的。<br/>
+解决方法：为再创建一个虚拟交换机(VM-Internal)用来做内部网络分配，Default Switch依旧用来做NAT地址转换。同时修改虚拟机设置，要求虚拟机有2块网络适配器(网卡)，分别和Internal、Default Switch连接。这样虚拟机既可以访问外网，也可以得到一个静态IP。<br/>
+Ubuntu的网络配置在/etc/network/interfaces文件中，加入以下代码配置静态IP:
+```shell
+auto eth0
+iface eth0 inet static
+address 192.168.100.2
+network 192.168.100.0
+netmask 255.255.255.0
+broadcast 192.168.100.255
+gateway 192.168.100.1
+```
+reboot或重启网络服务即可
