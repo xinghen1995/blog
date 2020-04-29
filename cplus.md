@@ -1,5 +1,6 @@
 ## 导航
 > #### 第二章 对象的创建和使用
+> #### STL容器
 > #### 随笔
 
 ## 第二章 对象的创建和使用
@@ -23,3 +24,9 @@ T abc(const Ta& a, const Tb& b, const Tc& c);
 ```
 
 3. const引用返回。将返回引用声明为const，和普通的返回是一样的效果，不同在于要求函数返回值只能赋值给const常量。
+
+## STL容器
+1. <vector>
+    + push_back() 在vector末尾添加一个元素
+    + push_frount() 在vector前面加入一个元素
+    + 取出元素直接使用书的数组下标，因为vector重载了数组访问运算符
